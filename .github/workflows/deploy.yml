@@ -30,4 +30,4 @@ jobs:
         docker rm auth-server-front || true
 
         # Running the Docker image
-        docker run -d --name auth-server-front -p 4201:3000 my-react-app
+        docker run -d --name auth-server-front -p 4201:80 my-react-app
