@@ -1,0 +1,24 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main # Or whichever branch you want to target
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t my-react-app .
+        # Assuming you have a Docker registry to push to (e.g., DockerHub, GitHub Packages, AWS ECR)
+        # docker login ...
+        # docker push ...
+
+    # Add additional steps as needed (e.g., deploy to a server, notify a team, etc.)
+
