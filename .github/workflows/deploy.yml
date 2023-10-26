@@ -13,12 +13,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Build and push Docker image
+    - name: Build Docker image
       run: |
         docker build -t my-react-app .
-        # Assuming you have a Docker registry to push to (e.g., DockerHub, GitHub Packages, AWS ECR)
-        # docker login ...
-        # docker push ...
 
-    # Add additional steps as needed (e.g., deploy to a server, notify a team, etc.)
+    # If you were to push to a registry, this would be where you do it
+    # - name: Push Docker image
+    #   run: |
+    #     docker login ...
+    #     docker push ...
 
+    - name: Run Docker container
+      run: |
+        # Stopping any previous instance of the container (optional)
+        docker stop auth-server-front || true
+        docker rm auth-server-front || true
+
+        # Running the Docker image
+        docker run -d --name auth-server-front -p 4201:3000 my-react-app
