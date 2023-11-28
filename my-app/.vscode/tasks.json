@@ -22,7 +22,7 @@
           },
           "options": {
             "env": {
-                "REACT_APP_PORTFOLIO_APP_AUTHORIZATION_URL": "https://localhost:7099/api/",
+                "REACT_APP_PORTFOLIO_APP_AUTHORIZATION_URL": "https://localhost:7099/api/auth",
                 "ANOTHER_VARIABLE": "another value"
             }
         }

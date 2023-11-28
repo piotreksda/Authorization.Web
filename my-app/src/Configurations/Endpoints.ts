@@ -17,12 +17,12 @@ enum HttpMethod {
 const Endpoints: Record<string, IEndpoint> = {
     login: {
         service: ServiceKeys.Authorization,
-        url: "/auth/login",
+        url: "login",
         method: HttpMethod.POST,
     },
     refreshToken: {
         service: ServiceKeys.Authorization,
-        url: "auth/refreshToken",
+        url: "refreshToken",
         method: HttpMethod.GET
     }
 };
