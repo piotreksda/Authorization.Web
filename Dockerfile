@@ -13,6 +13,10 @@ RUN npm install
 # Copy the rest of the application code into the container
 COPY ./my-app .
 
+# Set the environment variable
+ARG REACT_APP_PORTFOLIO_APP_AUTHORIZATION_URL
+ENV REACT_APP_PORTFOLIO_APP_AUTHORIZATION_URL=$REACT_APP_PORTFOLIO_APP_AUTHORIZATION_URL
+
 # Build the React app
 RUN npm run build
 
@@ -23,4 +27,3 @@ COPY --from=build /app/build /usr/share/nginx/html
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
-

@@ -32,9 +32,29 @@ const Login: React.FC = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-            <input type="checkbox" onChange={e => setRememberMe(e.target.checked)}/>
+            <label htmlFor="username">Username:</label>
+            <input 
+                id="username"
+                type="text" 
+                value={username} 
+                onChange={e => setUsername(e.target.value)} 
+            />
+
+            <label htmlFor="password">Password:</label>
+            <input 
+                id="password"
+                type="password" 
+                value={password} 
+                onChange={e => setPassword(e.target.value)} 
+            />
+
+            <label htmlFor="remember-me">Remember Me:</label>
+            <input 
+                id="remember-me"
+                type="checkbox" 
+                onChange={e => setRememberMe(e.target.checked)}
+            />
+
             <button type="submit">Login</button>
         </form>
     );

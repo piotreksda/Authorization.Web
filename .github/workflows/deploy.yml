@@ -8,6 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: self-hosted
+    environment: Staging
     
     steps:
     - name: Checkout code
@@ -15,7 +16,9 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t my-react-app .
+        docker build \
+          --build-arg REACT_APP_PORTFOLIO_APP_AUTHORIZATION_URL=${{ env.AUTH_API_URL }}
+          -t my-react-app .
 
     # If you were to push to a registry, this would be where you do it
     # - name: Push Docker image
