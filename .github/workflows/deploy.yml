@@ -17,7 +17,7 @@ jobs:
     - name: Build Docker image
       run: |
         docker build \
-          --build-arg REACT_APP_PORTFOLIO_APP_AUTHORIZATION_URL=${{ env.AUTH_API_URL }}
+          --build-arg REACT_APP_PORTFOLIO_APP_AUTHORIZATION_URL=${{ env.AUTH_API_URL }} \
           -t my-react-app .
 
     # If you were to push to a registry, this would be where you do it
