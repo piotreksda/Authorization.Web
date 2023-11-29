@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import Services, { IServiceConfig, ServiceKeys } from '../Configurations/ApiMicroServices';
-import Endpoints, { IEndpoint } from '../Configurations/Endpoints';
+import { Endpoints, IEndpoint } from '../Configurations/Endpoints';
 
 
 
@@ -17,17 +17,17 @@ function createServiceInstance(serviceConfig: IServiceConfig): AxiosInstance {
         }
         return config;
     });
-
-    instance.interceptors.response.use((response: AxiosResponse) => response, async (error) => {
-        return refreshTokenAndRetryRequest(error);
-    });
-
-    async function refreshTokenAndRetryRequest(error: any): Promise<AxiosResponse> {
+    instance.interceptors.response.use(function (response) {
+        return response;
+      }, async function (error) {
         const originalRequest = error.config;
-        if (error.response.status === 401 && !originalRequest._retry) {
+        if (error.code === 'ERR_NETWORK'){
+            toast.error('NETWORK ERROR');
+        }
+        else if (error.response.status === 401 && error.response.headers && error.response.headers.authorization && !originalRequest._retry){
             originalRequest._retry = true;
             try {
-                const endpoint = Endpoints.refreshToken;
+                const endpoint = Endpoints.RefreshToken;
                 const serviceInstance = serviceInstances[endpoint.service];
                 const refreshResponse = await serviceInstance.request<string>({
                     method: endpoint.method,
@@ -42,13 +42,15 @@ function createServiceInstance(serviceConfig: IServiceConfig): AxiosInstance {
                 return axios(originalRequest);
             } catch (refreshError : any) {
                 toast.error(refreshError.response.data.Title || 'Error');
-                //todo: Redirect to login or handle as required
                 throw refreshError;
             }
         }
-        toast.error(error.response.data.Title || 'Error');
-        throw error;
-    }
+        else if (error.response.status !== 200 && !originalRequest._retry){
+            toast.error(error.response.data.Title || 'Error');
+            throw error;
+        }
+        return Promise.reject(error);
+      });
 
     return instance;
 }

@@ -15,16 +15,21 @@ enum HttpMethod {
 }
 
 const Endpoints: Record<string, IEndpoint> = {
-    login: {
+    Login: {
         service: ServiceKeys.Authorization,
         url: "login",
         method: HttpMethod.POST,
     },
-    refreshToken: {
+    RefreshToken: {
         service: ServiceKeys.Authorization,
         url: "refreshToken",
         method: HttpMethod.GET
+    },
+    Register: {
+        service: ServiceKeys.Authorization,
+        url: "register",
+        method: HttpMethod.POST
     }
 };
 
-export default Endpoints;
+export { Endpoints };

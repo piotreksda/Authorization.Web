@@ -3,16 +3,18 @@ import { useAuth } from '../../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../Services/authService';
 import AuthFormTypes from './AuthFormTypes';
+import { toast } from 'react-toastify';
 
-interface LoginProps{
+interface RegisterProps{
     onSwitchForm : (newForm : string) => void
-} 
+}
 
-const Login: React.FC<LoginProps> = ({onSwitchForm}) => {
+const Register: React.FC<RegisterProps> = ({ onSwitchForm }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    const { login, isAuthenticated } = useAuth();
+    const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,8 +26,9 @@ const Login: React.FC<LoginProps> = ({onSwitchForm}) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await authService.Login(username, password, rememberMe);
-            login();
+            await authService.Register(username, password, email);            
+            onSwitchForm(AuthFormTypes.LOGIN);
+            toast.success('Registered :) Now you can login');
         } catch (error) {
             
         }
@@ -42,6 +45,14 @@ const Login: React.FC<LoginProps> = ({onSwitchForm}) => {
                 onChange={e => setUsername(e.target.value)} 
             />
 
+            <label htmlFor="email">Email:</label>
+            <input 
+                id="email"
+                type="text" 
+                value={email} 
+                onChange={e => setEmail(e.target.value)} 
+            />
+
             <label htmlFor="password">Password:</label>
             <input 
                 id="password"
@@ -50,17 +61,10 @@ const Login: React.FC<LoginProps> = ({onSwitchForm}) => {
                 onChange={e => setPassword(e.target.value)} 
             />
 
-            <label htmlFor="remember-me">Remember Me:</label>
-            <input 
-                id="remember-me"
-                type="checkbox" 
-                onChange={e => setRememberMe(e.target.checked)}
-            />
-
-            <button type="submit">Login</button>
-            <button type="button" onClick={() => onSwitchForm(AuthFormTypes.REGISTER)}>Move to register</button>
+            <button type="submit">Register</button>
+            <button type="button" onClick={() => onSwitchForm(AuthFormTypes.LOGIN)}>Move to login</button>
         </form>
     );
 };
 
-export default Login;
+export default Register;

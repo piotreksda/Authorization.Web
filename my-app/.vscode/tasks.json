@@ -25,7 +25,12 @@
                 "REACT_APP_PORTFOLIO_APP_AUTHORIZATION_URL": "https://localhost:7099/api/auth",
                 "ANOTHER_VARIABLE": "another value"
             }
-        }
+          },
+          "presentation": {
+            "panel": "shared",
+            "reveal": "always",
+            "clear": true
+          }
        }
     ]
 }
